@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Impacto económico de la incautación de Puerto Gaitán</title>
+<meta name="description" content="Tablero con el valor del inventario incautado en Puerto Gaitán (1.198 kg), su composición por etapa y el capital perdido según el margen propio.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Impacto económico de la incautación de Puerto Gaitán">
+<meta property="og:description" content="1.198 kg incautados: inventario de $6.120 a $7.907 M, descompuesto por etapa y factor con la contabilidad oficial 2022.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Impacto económico de la incautación de Puerto Gaitán">
+<meta name="twitter:description" content="Inventario de $6.120 a $7.907 M, descompuesto por etapa y factor con la contabilidad oficial 2022.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #F3F5F7; --ink: #111B24; --muted: #556270; --line: #D3DAE1; --soft: #E7EBEF;
+  --ins: #3B7EA8; --tra: #0B7A6A; --cul: #B08A1E; --log: #7D5FA8; --on-seg: #FFFFFF;
+  --focus: #1B4F8F;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F161C; --ink: #E8EDF1; --muted: #9AA7B3; --line: #2A3641; --soft: #18222B;
+    --ins: #6FA8D0; --tra: #3FBFA8; --cul: #D5B04A; --log: #A98BD6; --on-seg: #0F161C; --focus: #8DB7F0;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F161C; --ink: #E8EDF1; --muted: #9AA7B3; --line: #2A3641; --soft: #18222B;
+  --ins: #6FA8D0; --tra: #3FBFA8; --cul: #D5B04A; --log: #A98BD6; --on-seg: #0F161C; --focus: #8DB7F0;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 960px; margin: 0 auto; padding: 28px 18px 64px; }
+h1, h2, .num { font-family: "Newsreader", Georgia, "Times New Roman", serif; font-weight: 600; }
+h1 { font-size: clamp(28px, 6vw, 42px); line-height: 1.1; margin: 0 0 12px; letter-spacing: -0.01em; }
+h2 { font-size: clamp(21px, 4vw, 27px); line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.005em; }
+h3 { font-size: 15px; margin: 22px 0 8px; font-weight: 600; }
+p { margin: 0 0 10px; max-width: 70ch; }
+.lead { font-size: 17px; max-width: 62ch; margin-bottom: 20px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+section { border-top: 1px solid var(--line); padding-top: 28px; margin-top: 40px; }
+header + section { margin-top: 28px; }
+
+/* scenario control */
+.seg { display: inline-flex; border: 1px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.seg button {
+  font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); background: transparent;
+  border: 0; padding: 9px 14px; cursor: pointer; min-height: 40px;
+}
+.seg button + button { border-left: 1px solid var(--ink); }
+.seg button[aria-checked="true"] { background: var(--ink); color: var(--bg); }
+button:focus-visible, input:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.scen-note { margin-top: 10px; }
+
+/* KPI strip */
+.kpis { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 26px 0 0; }
+.kpi { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--line); }
+.kpi:nth-child(odd) { border-right: 1px solid var(--line); padding-right: 12px; }
+.kpi:nth-child(even) { padding-left: 14px; }
+.kpi:nth-last-child(-n+2) { border-bottom: 0; }
+.kpi .lab { font-size: 13px; color: var(--muted); }
+.kpi .num { font-size: clamp(22px, 5.6vw, 36px); line-height: 1.1; margin: 4px 0 2px; font-variant-numeric: lining-nums tabular-nums; }
+.kpi .sub { font-size: 12.5px; color: var(--muted); }
+@media (min-width: 720px) {
+  .kpis { grid-template-columns: repeat(4, 1fr); }
+  .kpi, .kpi:nth-child(odd), .kpi:nth-child(even) { border-right: 1px solid var(--line); border-bottom: 0; padding: 14px 14px; }
+  .kpi:first-child { padding-left: 0; }
+  .kpi:last-child { border-right: 0; }
+}
+
+/* stacked bar */
+.stack { display: flex; width: 100%; height: 52px; border-radius: 6px; overflow: hidden; margin: 14px 0 6px; background: var(--soft); }
+.stack .seg-p { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--on-seg); min-width: 0; overflow: hidden; white-space: nowrap; }
+.stack .seg-p + .seg-p { border-left: 2px solid var(--bg); }
+.stack-axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+
+/* bar rows */
+.rows { display: grid; gap: 12px; margin: 14px 0 6px; }
+.row .head { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; margin-bottom: 4px; }
+.row .head .v { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 500; }
+.track { height: 14px; background: var(--soft); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; border-radius: 3px; }
+
+/* tables */
+.tbl { overflow-x: auto; margin: 12px 0 4px; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+#ipcTbl, #sensTbl, #sumTbl, #qualTbl, #ffiTbl { min-width: 540px; }
+#destTbl th, #destTbl td { padding-left: 6px; padding-right: 6px; }
+#destTbl th:first-child, #destTbl td:first-child { padding-left: 0; }
+th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12.5px; border-bottom: 1px solid var(--ink); }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+td.t, th.t { text-align: left; }
+tr.tot td { font-weight: 600; border-top: 1px solid var(--ink); }
+td.act, th.act { background: var(--soft); }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: baseline; }
+.chip { display: inline-block; font-size: 11.5px; border: 1px solid var(--muted); border-radius: 4px; padding: 1px 6px; color: var(--muted); white-space: nowrap; }
+.chip.dash { border-style: dashed; }
+
+/* svg charts */
+.chart { width: 100%; height: auto; display: block; margin-top: 10px; }
+.chart text { fill: var(--ink); font-family: "Public Sans", system-ui, sans-serif; }
+.chart .ax { fill: var(--muted); font-size: 11.5px; }
+
+/* calculator */
+.calc { display: grid; gap: 18px; margin-top: 14px; }
+.ctl label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.ctl output { font-variant-numeric: tabular-nums; }
+input[type=range] { width: 100%; accent-color: var(--ink); height: 28px; }
+.outs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.outs > div { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.outs > div:nth-child(odd) { padding-right: 12px; border-right: 1px solid var(--line); }
+.outs > div:nth-child(even) { padding-left: 14px; }
+.outs .lab { font-size: 13px; color: var(--muted); }
+.outs .num { font-size: clamp(22px, 5.6vw, 26px); line-height: 1.15; }
+@media (min-width: 720px) { .calc { grid-template-columns: 1fr 1.3fr; align-items: start; } }
+
+/* mermaid + json */
+pre.mermaid { background: transparent; margin: 14px 0; overflow-x: auto; text-align: center; }
+details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+pre.json { background: var(--soft); border-radius: 6px; padding: 14px; overflow: auto; max-height: 420px; font-size: 12px; line-height: 1.5; margin: 12px 0 0; }
+.btn { font: inherit; font-size: 14px; font-weight: 500; color: var(--bg); background: var(--ink); border: 0; border-radius: 8px; padding: 9px 14px; min-height: 40px; cursor: pointer; margin-top: 10px; }
+.src { padding-left: 18px; margin: 8px 0 0; }
+.src li { margin-bottom: 4px; }
+a { color: var(--focus); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Impacto económico de la incautación de 1.198 kg en Puerto Gaitán</h1>
+  <p class="lead" id="answer"></p>
+  <div class="seg" role="radiogroup" aria-label="Escenario de precio" id="seg"></div>
+  <p class="small muted scen-note" id="scenNote"></p>
+  <div class="kpis" id="kpis"></div>
+</header>
+
+<section id="composicion">
+  <h2 id="h-comp"></h2>
+  <p class="muted">Participación de cada componente en el valor del cargamento, según la estructura nacional de 2022. El color marca la etapa.</p>
+  <div class="stack" id="stack" role="img" aria-label="Composición del valor del cargamento por componente"></div>
+  <div class="stack-axis"><span>0%</span><span>100% del valor del cargamento</span></div>
+  <div class="tbl"><table id="stageTbl"></table></div>
+</section>
+
+<section id="factores">
+  <h2>Casi tres cuartas partes del valor es excedente de toda la cadena, no renta de la estructura</h2>
+  <p class="muted">La identidad VA + importaciones = uso final + incautaciones reparte el valor entre tres factores. El excedente se divide entre cultivadores, procesadores y proveedores, y casi todo ya se pagó aguas arriba.</p>
+  <div class="stack" id="fstack" role="img" aria-label="Reparto del valor por factor"></div>
+  <div class="tbl"><table id="factTbl"></table></div>
+</section>
+
+<section id="va">
+  <h2>La refinación y los proveedores externos al cultivo generan tres cuartas partes del valor agregado nacional</h2>
+  <p class="muted">Valor agregado por actividad en 2022, como parte de $9,02 billones. Estimación derivada de porcentajes redondeados, con margen de unos ±60.000 M por actividad.</p>
+  <div class="rows" id="vaRows"></div>
+</section>
+
+<section id="precios">
+  <h2>El kilo de clorhidrato casi duplica el precio de la base dentro de Colombia, y el gran salto ocurre fuera</h2>
+  <p class="muted">Precio por kilo en millones de pesos, de cada año. Gris: mercado interno 2021. Azul: valor de salida 2022. Negro: referencia reportada 2026. Rayado: mercado mayorista de destino, 2022.</p>
+  <div class="rows" id="priceRows"></div>
+  <h3>Valor de 1.198 kg a precios mayoristas de destino (2022)</h3>
+  <div class="tbl"><table id="destTbl"></table></div>
+  <h3>La brecha de 29% se cierra casi del todo con inflación</h3>
+  <div class="tbl"><table id="ipcTbl"></table></div>
+</section>
+
+<section id="ffi">
+  <h2>La cadena pagó al exterior unos $0,19 por cada peso que recibió al exportar</h2>
+  <p class="muted">Flujos financieros ilícitos, en billones de pesos corrientes. El escenario 2 (precio de destino) se muestra en la tabla; no es utilidad ni ingreso colombiano.</p>
+  <svg class="chart" id="ffiChart" viewBox="0 0 640 270" role="img" aria-label="Flujos financieros ilícitos salientes y entrantes 2020 a 2022"></svg>
+  <div class="tbl"><table id="ffiTbl"></table></div>
+</section>
+
+<section id="sens">
+  <h2>El capital perdido cambia más con el precio y el margen que con cualquier otro supuesto</h2>
+  <p class="muted">Capital adelantado perdido (K) frente al precio por kilo, con un margen propio de la estructura de 10%, 25% y 40%. La línea punteada es V.</p>
+  <svg class="chart" id="lineChart" viewBox="0 0 640 310" role="img" aria-label="Capital perdido frente al precio por kilo para tres márgenes propios"></svg>
+  <div class="tbl"><table id="sensTbl"></table></div>
+
+  <h3>Pruebe sus propios supuestos</h3>
+  <div class="calc">
+    <div>
+      <div class="ctl">
+        <label for="price">Precio por kilo <output id="priceOut"></output></label>
+        <input type="range" id="price" min="3" max="10" step="0.05" value="6.6">
+      </div>
+      <div class="ctl" style="margin-top:14px">
+        <label for="mrg">Margen propio de la estructura (m) <output id="mrgOut"></output></label>
+        <input type="range" id="mrg" min="0" max="60" step="1" value="25">
+      </div>
+      <p class="small muted" style="margin-top:12px">El margen es un supuesto: ninguna fuente pública lo da. Con la cantidad fija en 1.198 kg.</p>
+    </div>
+    <div class="outs" id="outs"></div>
+  </div>
+</section>
+
+<section id="orden">
+  <h2>Los cinco impactos no se suman: tres son el mismo peso visto de distinto modo</h2>
+  <pre class="mermaid">
+flowchart TD
+  V["V: valor del inventario"]
+  A["A. Costo hundido: ya está dentro de V"]
+  B["B. Inventario: es V"]
+  C["C. Margen del siguiente eslabón: fuera de V, lo capturan otros"]
+  K["K = V x (1 - m): capital adelantado perdido"]
+  D["D. Medios logísticos incautados: sin dato"]
+  P["Pérdida de balance = K + D"]
+  E["E. Externalidades: cuenta separada"]
+  V --> A
+  V --> B
+  V -.-> C
+  V --> K
+  K --> P
+  D --> P
+  E ~~~ P
+  </pre>
+  <p class="muted">La medida central es V. K y D forman la pérdida de balance de la estructura; E y C se reportan aparte.</p>
+</section>
+
+<section id="cadena">
+  <h2>La incautación corta la cadena cuando casi todo el valor interno ya está generado</h2>
+  <pre class="mermaid">
+flowchart TD
+  I["Insumos"] --> CU["Cultivo"]
+  CU --> PR["Transformación primaria: pasta y base"]
+  PR --> RE["Refinación industrial: clorhidrato"]
+  RE --> LO["Logística interna"]
+  LO --> X{{"Incautación Puerto Gaitán: 1.198 kg"}}
+  X -. "no ocurre" .-> SA["Salida de Colombia"]
+  SA -.-> MI["Mercado internacional"]
+  </pre>
+</section>
+
+<section id="resumen">
+  <h2>Resumen del modelo por escenario</h2>
+  <p class="muted">Millones de pesos salvo indicación. La columna sombreada es el escenario elegido arriba.</p>
+  <div class="tbl"><table id="sumTbl"></table></div>
+  <h3>Calidad de cada cifra</h3>
+  <div class="tbl"><table id="qualTbl"></table></div>
+</section>
+
+<section id="datos">
+  <h2>Datos del tablero en JSON</h2>
+  <p class="muted">Los gráficos y tablas se calculan desde este objeto. El mismo archivo se entrega aparte como dashboard_data.json.</p>
+  <details>
+    <summary>Ver el JSON</summary>
+    <button class="btn" id="copyBtn" type="button">Copiar JSON</button>
+    <span class="small muted" id="copyMsg" role="status"></span>
+    <pre class="json" id="jsonView"></pre>
+  </details>
+  <h3>Fuentes</h3>
+  <ul class="src" id="srcList"></ul>
+  <p class="small muted">Las tasas de IPC de 2022 y 2023 son las oficiales del DANE y no se reabrió su fuente. Los valores son salidas de modelo con promedios nacionales de 2022, no observaciones del cargamento. El estudio es económico y no contiene información operativa.</p>
+</section>
+
+</div>
+
+<script type="application/json" id="dashboard-data">{"meta":{"titulo":"Impacto económico de la incautación de Puerto Gaitán","fecha_referencia":"2026-10-03","kg":1198,"unidad":"millones de pesos colombianos (M COP) salvo indicación","base_contable":"COU 2022, Minjusticia-UNODC (boletín técnico FFI 2020-2022)","aviso":"Salidas de modelo con promedios nacionales de 2022; no son observaciones del cargamento. El valor en destino no es ingreso colombiano ni utilidad."},"escenarios":[{"id":"conservador","nombre":"Conservador","precio_m_cop_kg":5.108303,"clase":"MODELLED","nota":"Valor de salida 2022: 8.295.884 M / 1.624 t"},{"id":"central","nombre":"Central","precio_m_cop_kg":6.6,"clase":"OFFICIAL_ESTIMATE","nota":"Referencia reportada 2026: 7.906,8 M / 1.198 kg"},{"id":"alto","nombre":"Alto (referencia)","precio_m_cop_kg":9.789247,"clase":"SCENARIO","nota":"Mayorista Países Andinos 2022; no es ingreso colombiano"}],"impacto_oficial_reportado_m_cop":7906.8,"margenes_propios":[0.1,0.25,0.4],"etapas":[{"id":"quim","grupo":"Insumos","nombre":"Químicos domésticos","monto_2022_m_cop":2391416},{"id":"imp","grupo":"Insumos","nombre":"Insumos importados","monto_2022_m_cop":1595116},{"id":"agro","grupo":"Insumos","nombre":"Agroquímicos y otros insumos","monto_2022_m_cop":413847},{"id":"ind","grupo":"Transformación","nombre":"Industrial (clorhidrato)","monto_2022_m_cop":3361099},{"id":"agi","grupo":"Transformación","nombre":"Agroindustrial (pasta y base)","monto_2022_m_cop":883789},{"id":"cul","grupo":"Cultivo","nombre":"Agrícola (hoja de coca)","monto_2022_m_cop":1196340},{"id":"log","grupo":"Logística","nombre":"Transporte y seguridad","monto_2022_m_cop":774176}],"factores":[{"id":"imp","nombre":"Insumos importados","monto_2022_m_cop":1595116},{"id":"rem","nombre":"Remuneración","monto_2022_m_cop":1262515},{"id":"ebe","nombre":"Excedente / ingreso mixto","monto_2022_m_cop":7758151}],"va_actividad":[{"nombre":"Agrícola: hoja de coca","color":"cul","monto_2022_m_cop":1196340},{"nombre":"Agroindustrial: pasta y base","color":"tra","monto_2022_m_cop":883789},{"nombre":"Industrial: clorhidrato","color":"tra","monto_2022_m_cop":3361099},{"nombre":"Otros sectores: químicos, transporte, agroquímicos","color":"ins","monto_2022_m_cop":3579439}],"precios":[{"nombre":"Pasta básica","anio":2021,"precio_m_cop_kg":2.1819,"nivel":"Nacional","tipo":"n21","clase":"OFFICIAL_ESTIMATE"},{"nombre":"Base de cocaína","anio":2021,"precio_m_cop_kg":2.427,"nivel":"Nacional","tipo":"n21","clase":"OFFICIAL_ESTIMATE"},{"nombre":"Clorhidrato, mercado interno","anio":2021,"precio_m_cop_kg":4.5302,"nivel":"Nacional","tipo":"n21","clase":"OFFICIAL_ESTIMATE"},{"nombre":"Clorhidrato, salida de Colombia","anio":2022,"precio_m_cop_kg":5.108303,"nivel":"Puerto de salida","tipo":"s22","clase":"MODELLED"},{"nombre":"Clorhidrato, referencia del caso","anio":2026,"precio_m_cop_kg":6.6,"nivel":"No declarado","tipo":"r26","clase":"OFFICIAL_ESTIMATE"},{"nombre":"Clorhidrato, Países Andinos","anio":2022,"precio_m_cop_kg":9.789247,"nivel":"Mayorista en destino","tipo":"dest","clase":"OFFICIAL_ESTIMATE"}],"ipc_anual":{"dic_2022":0.1312,"dic_2023":0.0928,"dic_2024":0.052,"dic_2025":0.051,"ene_ago_2026":0.0535},"destino":[{"mercado":"Países Andinos","precio_m_cop_kg":9.789247},{"mercado":"Caribe","precio_m_cop_kg":32.8079},{"mercado":"Sudamérica","precio_m_cop_kg":36.17765},{"mercado":"Centroamérica","precio_m_cop_kg":45.115967},{"mercado":"Norteamérica","precio_m_cop_kg":45.754087},{"mercado":"Europa Occidental y Central","precio_m_cop_kg":191.977896}],"ffi":{"anios":[2020,2021,2022],"salientes_m_cop":[820814,1082723,1595116],"entrantes_escenario1_m_cop":[4995019,5205720,8295884],"entrantes_escenario2_m_cop":[44567791,39583238,68352659],"toneladas_exportables":[1127,1140,1624]},"sensibilidad":{"variaciones_precio":[-0.5,-0.25,-0.1,0,0.1,0.25,0.5]},"fuentes":[{"titulo":"Boletín técnico FFI 2020-2022","institucion":"Minjusticia (ODC) y UNODC-SIMCI","url":"https://www.minjusticia.gov.co/programas-co/ODC/Publicaciones/Publicaciones/Bolet%C3%ADn%20t%C3%A9cnico%20FFI.pdf"},{"titulo":"Boletín sobre precios de las drogas ilícitas 2021","institucion":"Minjusticia, UNODC y Mindefensa","url":"https://www.minjusticia.gov.co/programas-co/ODC/Documents/Publicaciones/Criminalidad/Delitos-Relacionados-Drogas/Boletin%20Precios%202021.pdf"},{"titulo":"El Tiempo, 2 de octubre de 2026","institucion":"Prensa","url":"https://www.eltiempo.com/colombia/otras-ciudades/incautan-en-el-meta-1-2-toneladas-de-clorhidrato-de-cocaina-a-disidentes-de-ivan-mordisco-que-tendrian-como-destino-los-estados-unidos-3590891"},{"titulo":"Decomiso de 606 kg en Puerto Gaitán","institucion":"Comando General de las Fuerzas Militares","url":"https://cgfm.mil.co/es/node/42671"},{"titulo":"IPC 2025 (DANE)","institucion":"Noticias Caracol","url":"https://www.noticiascaracol.com/economia/ipc-de-2025-en-colombia-quedo-en-5-1-segun-el-dane-en-cuanto-podran-subir-arriendos-y-mas-rg10"},{"titulo":"IPC agosto 2026 (DANE)","institucion":"Noticias RCN","url":"https://www.noticiasrcn.com/economia/colombia-registra-inflacion-anual-de-6-24-en-agosto-de-2026-segun-el-dane-1058573"}]}</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('dashboard-data').textContent);
+  var KG = D.meta.kg;
+  var grp = function (s) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+  var fd = function (n, d) {
+    var str = Math.abs(n).toFixed(d), a = str.split('.');
+    return (n < 0 && parseFloat(str) !== 0 ? '-' : '') + grp(a[0]) + (d ? ',' + a[1] : '');
+  };
+  var f0 = function (n) { return fd(n, 0); };
+  var f1 = function (n) { return fd(n, 1); };
+  var f2 = function (n) { return fd(n, 2); };
+  var f3 = function (n) { return fd(n, 3); };
+  var pc = function (x, d) { return fd(x * 100, d === undefined ? 1 : d) + '%'; };
+  var M = function (v) { return '$' + f0(v) + ' M'; };
+  var $ = function (id) { return document.getElementById(id); };
+  var chartW = function (id) { return Math.round(Math.max(300, Math.min(720, $(id).parentNode.clientWidth || 640))); };
+  var COL = { Insumos: 'var(--ins)', 'Transformación': 'var(--tra)', Cultivo: 'var(--cul)', 'Logística': 'var(--log)' };
+
+  var etTotal = D.etapas.reduce(function (s, e) { return s + e.monto_2022_m_cop; }, 0);
+  var faTotal = D.factores.reduce(function (s, e) { return s + e.monto_2022_m_cop; }, 0);
+  var vaTotal = D.va_actividad.reduce(function (s, e) { return s + e.monto_2022_m_cop; }, 0);
+  var S = D.escenarios;
+  var state = { id: 'central' };
+  var cur = function () { return S.filter(function (s) { return s.id === state.id; })[0]; };
+  var Vof = function (s) { return s.precio_m_cop_kg * KG; };
+  var salida = S[0].precio_m_cop_kg;
+  var ms = D.margenes_propios;
+
+  /* header */
+  function renderHead() {
+    var c = S[1], lo = S[0];
+    $('answer').textContent = 'El inventario interrumpido vale entre ' + M(Vof(lo)) + ' y ' + M(Vof(c)) +
+      '. La pérdida de capital de la estructura va de ' + M(Vof(lo) * (1 - ms[2])) + ' a ' + M(Vof(c) * (1 - ms[0])) +
+      ', según su margen propio.';
+    var seg = $('seg'); seg.innerHTML = '';
+    S.forEach(function (s) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('role', 'radio');
+      b.setAttribute('aria-checked', s.id === state.id ? 'true' : 'false');
+      b.textContent = s.nombre;
+      b.addEventListener('click', function () { state.id = s.id; renderScenario(); });
+      seg.appendChild(b);
+    });
+  }
+
+  function renderScenario() {
+    var s = cur(), V = Vof(s);
+    Array.prototype.forEach.call($('seg').children, function (b, i) { b.setAttribute('aria-checked', S[i].id === state.id ? 'true' : 'false'); });
+    $('scenNote').textContent = s.nombre + ': ' + s.nota + '. Clasificación ' + s.clase + '.';
+    var gap = s.precio_m_cop_kg / salida - 1;
+    var kpis = [
+      ['Valor del inventario (V)', M(V), f0(KG) + ' kg a $' + f3(s.precio_m_cop_kg) + ' M/kg'],
+      ['Cifra oficial reportada', M(D.impacto_oficial_reportado_m_cop).replace('7.907', '7.906,8'), 'V frente a la cifra: ' + (V / D.impacto_oficial_reportado_m_cop - 1 >= 0 ? '+' : '') + pc(V / D.impacto_oficial_reportado_m_cop - 1)],
+      ['Precio frente al valor de salida 2022', (gap >= 0 ? '+' : '') + pc(gap), 'Con IPC acumulado la brecha del precio central es de ' + pc(ipc().gapSalida)],
+      ['Capital perdido (K)', M(V * (1 - ms[2])) + ' a ' + M(V * (1 - ms[0])), 'con margen propio de 10% a 40%']
+    ];
+    $('kpis').innerHTML = kpis.map(function (k) {
+      return '<div class="kpi"><div class="lab">' + k[0] + '</div><div class="num">' + k[1] + '</div><div class="sub">' + k[2] + '</div></div>';
+    }).join('');
+    renderStages(V); renderFactors(V); renderSummary();
+  }
+
+  /* stages */
+  function shade(i) { return [1, 0.78, 0.58][i % 3]; }
+  function renderStages(V) {
+    var byG = {}, order = [];
+    D.etapas.forEach(function (e) { if (!byG[e.grupo]) { byG[e.grupo] = []; order.push(e.grupo); } byG[e.grupo].push(e); });
+    var html = '', rows = '', insTra = 0;
+    order.forEach(function (g) {
+      byG[g].forEach(function (e, i) {
+        var sh = e.monto_2022_m_cop / etTotal;
+        e._sh = sh;
+        if (g === 'Insumos' || g === 'Transformación') insTra += sh;
+        html += '<div class="seg-p" style="flex:' + sh + ' 1 0;background:' + COL[g] + ';opacity:' + shade(i) + '" title="' + e.nombre + ': ' + M(sh * V) + ' (' + pc(sh) + ')">' + (sh > 0.075 ? pc(sh, 0) : '') + '</div>';
+      });
+    });
+    $('stack').innerHTML = html;
+    $('h-comp').textContent = 'Cuatro de cada cinco pesos del cargamento son insumos y transformación (' + pc(insTra, 0) + ')';
+    order.forEach(function (g) {
+      var sub = byG[g].reduce(function (s, e) { return s + e._sh; }, 0);
+      rows += '<tr><td class="t"><strong><span class="sw" style="background:' + COL[g] + '"></span>' + g + '</strong></td><td><strong>' + pc(sub) + '</strong></td><td><strong>' + M(sub * V) + '</strong></td></tr>';
+      byG[g].forEach(function (e, i) {
+        rows += '<tr><td class="t" style="padding-left:18px"><span class="sw" style="background:' + COL[g] + ';opacity:' + shade(i) + '"></span>' + e.nombre + '</td><td>' + pc(e._sh) + '</td><td>' + M(e._sh * V) + '</td></tr>';
+      });
+    });
+    rows += '<tr class="tot"><td class="t">Total</td><td>100,0%</td><td>' + M(V) + '</td></tr>';
+    $('stageTbl').innerHTML = '<thead><tr><th class="t">Etapa y componente</th><th>Parte</th><th>Valor</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  function renderFactors(V) {
+    var cols = ['var(--ins)', 'var(--log)', 'var(--tra)'], html = '', rows = '';
+    D.factores.forEach(function (f, i) {
+      var sh = f.monto_2022_m_cop / faTotal;
+      html += '<div class="seg-p" style="flex:' + sh + ' 1 0;background:' + cols[i] + '" title="' + f.nombre + ': ' + M(sh * V) + '">' + (sh > 0.09 ? pc(sh, 0) : '') + '</div>';
+      rows += '<tr><td class="t"><span class="sw" style="background:' + cols[i] + '"></span>' + f.nombre + '</td><td>' + pc(sh, 2) + '</td><td>' + M(sh * V) + '</td></tr>';
+    });
+    $('fstack').innerHTML = html;
+    var vaDom = (D.factores[1].monto_2022_m_cop + D.factores[2].monto_2022_m_cop) / faTotal;
+    rows += '<tr class="tot"><td class="t">Valor agregado doméstico</td><td>' + pc(vaDom, 2) + '</td><td>' + M(vaDom * V) + '</td></tr>';
+    $('factTbl').innerHTML = '<thead><tr><th class="t">Factor</th><th>Parte</th><th>Valor</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  /* static bar charts */
+  function bars(id, items, max) {
+    $(id).innerHTML = items.map(function (it) {
+      return '<div class="row"><div class="head"><span>' + it.name + '</span><span class="v">' + it.val + '</span></div><div class="track"><div class="fill" style="width:' + (it.w / max * 100) + '%;background:' + it.col + (it.extra || '') + '"></div></div></div>';
+    }).join('');
+  }
+  function renderVA() {
+    var mx = Math.max.apply(null, D.va_actividad.map(function (a) { return a.monto_2022_m_cop; }));
+    bars('vaRows', D.va_actividad.map(function (a) {
+      return { name: a.nombre, val: pc(a.monto_2022_m_cop / vaTotal) + ' · ' + M(a.monto_2022_m_cop), w: a.monto_2022_m_cop, col: 'var(--' + a.color + ')' };
+    }), mx);
+  }
+  function renderPrices() {
+    var colr = { n21: 'var(--muted)', s22: 'var(--ins)', r26: 'var(--ink)', dest: 'var(--ins)' };
+    var mx = Math.max.apply(null, D.precios.map(function (p) { return p.precio_m_cop_kg; }));
+    bars('priceRows', D.precios.map(function (p) {
+      var ex = p.tipo === 'dest' ? ';background-image:repeating-linear-gradient(45deg,transparent 0 4px,var(--bg) 4px 6px)' : '';
+      return { name: p.nombre + ' (' + p.anio + ')', val: '$' + f2(p.precio_m_cop_kg) + ' M/kg', w: p.precio_m_cop_kg, col: colr[p.tipo], extra: ex };
+    }), mx);
+    var rows = D.destino.map(function (d) {
+      return '<tr><td class="t">' + d.mercado + '</td><td>$' + f2(d.precio_m_cop_kg) + '</td><td>' + M(d.precio_m_cop_kg * KG) + '</td><td>' + f1(d.precio_m_cop_kg / salida) + 'x</td></tr>';
+    }).join('');
+    $('destTbl').innerHTML = '<thead><tr><th class="t">Mercado</th><th>Precio por kg (M)</th><th>Valor de 1.198 kg</th><th>Frente a la salida 2022</th></tr></thead><tbody>' + rows + '</tbody>';
+    var I = ipc();
+    $('ipcTbl').innerHTML = '<thead><tr><th class="t">Referencia</th><th>Original (M/kg)</th><th>Factor IPC</th><th>En pesos de ago-2026</th><th>Brecha con $6,6 M</th></tr></thead><tbody>' +
+      '<tr><td class="t">Salida de Colombia, 2022</td><td>' + f3(salida) + '</td><td>' + fd(I.f22, 4) + '</td><td>' + f3(I.adjS) + '</td><td>' + pc(I.gapSalida) + '</td></tr>' +
+      '<tr><td class="t">Mercado interno, 2021</td><td>' + f3(D.precios[2].precio_m_cop_kg) + '</td><td>' + fd(I.f21, 4) + '</td><td>' + f3(I.adjI) + '</td><td>' + pc(I.gapInterno) + '</td></tr>' +
+      '<tr><td class="t">Referencia reportada, 2026</td><td>' + f3(S[1].precio_m_cop_kg) + '</td><td>1,0000</td><td>' + f3(S[1].precio_m_cop_kg) + '</td><td>-</td></tr></tbody>';
+  }
+  function ipc() {
+    var p = D.ipc_anual;
+    var f22 = (1 + p.dic_2023) * (1 + p.dic_2024) * (1 + p.dic_2025) * (1 + p.ene_ago_2026);
+    var f21 = (1 + p.dic_2022) * f22;
+    var adjS = salida * f22, adjI = D.precios[2].precio_m_cop_kg * f21;
+    return { f22: f22, f21: f21, adjS: adjS, adjI: adjI, gapSalida: S[1].precio_m_cop_kg / adjS - 1, gapInterno: S[1].precio_m_cop_kg / adjI - 1 };
+  }
+
+  /* FFI chart */
+  function renderFFI() {
+    var W = chartW('ffiChart'), H = 296, l = 46, r = 12, t = 22, b = 78, ymax = 9;
+    $('ffiChart').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var y = function (v) { return t + (1 - v / ymax) * (H - t - b); };
+    var gw = (W - l - r) / 3, bw = Math.min(52, gw / 2 - 8);
+    var g = '';
+    [0, 3, 6, 9].forEach(function (v) {
+      g += '<line x1="' + l + '" x2="' + (W - r) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)"/><text class="ax" x="' + (l - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + '</text>';
+    });
+    g += '<text class="ax" x="' + l + '" y="12">Billones de pesos</text>';
+    D.ffi.anios.forEach(function (yr, i) {
+      var cx = l + gw * i + gw / 2;
+      var sal = D.ffi.salientes_m_cop[i] / 1e6, ent = D.ffi.entrantes_escenario1_m_cop[i] / 1e6;
+      g += '<rect x="' + (cx - bw - 4) + '" y="' + y(sal) + '" width="' + bw + '" height="' + (y(0) - y(sal)) + '" fill="var(--muted)" opacity="0.7"><title>' + yr + ' salientes: ' + f2(sal) + ' billones</title></rect>';
+      g += '<rect x="' + (cx + 4) + '" y="' + y(ent) + '" width="' + bw + '" height="' + (y(0) - y(ent)) + '" fill="var(--tra)"><title>' + yr + ' entrantes, escenario 1: ' + f2(ent) + ' billones</title></rect>';
+      g += '<text x="' + (cx - bw / 2 - 4) + '" y="' + (y(sal) - 6) + '" text-anchor="middle" font-size="12">' + f2(sal) + '</text>';
+      g += '<text x="' + (cx + bw / 2 + 4) + '" y="' + (y(ent) - 6) + '" text-anchor="middle" font-size="12" font-weight="600">' + f2(ent) + '</text>';
+      g += '<text x="' + cx + '" y="' + (H - b + 18) + '" text-anchor="middle" font-size="13">' + yr + '</text>';
+    });
+    g += '<rect x="' + l + '" y="' + (H - 36) + '" width="10" height="10" fill="var(--muted)" opacity="0.7"/><text class="ax" x="' + (l + 16) + '" y="' + (H - 27) + '">Salientes: importación de insumos</text>';
+    g += '<rect x="' + l + '" y="' + (H - 18) + '" width="10" height="10" fill="var(--tra)"/><text class="ax" x="' + (l + 16) + '" y="' + (H - 9) + '">Entrantes, escenario 1: valor de salida</text>';
+    $('ffiChart').innerHTML = g;
+    var rows = D.ffi.anios.map(function (yr, i) {
+      return '<tr><td class="t">' + yr + '</td><td>' + f0(D.ffi.salientes_m_cop[i]) + '</td><td>' + f0(D.ffi.entrantes_escenario1_m_cop[i]) + '</td><td>' + f0(D.ffi.entrantes_escenario2_m_cop[i]) + '</td><td>' + f0(D.ffi.toneladas_exportables[i]) + '</td></tr>';
+    }).join('');
+    $('ffiTbl').innerHTML = '<thead><tr><th class="t">Año</th><th>Salientes</th><th>Entrantes, escenario 1</th><th>Entrantes, escenario 2</th><th>Exportable (t)</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  /* sensitivity line chart */
+  function renderLine() {
+    var W = chartW('lineChart'), H = 310, l = 58, r = 62, t = 22, b = 54, ymax = 12000;
+    $('lineChart').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var vs = D.sensibilidad.variaciones_precio, pr = vs.map(function (v) { return S[1].precio_m_cop_kg * (1 + v); });
+    var x = function (p) { return l + (p - pr[0]) / (pr[pr.length - 1] - pr[0]) * (W - l - r); };
+    var y = function (v) { return t + (1 - v / ymax) * (H - t - b); };
+    var g = '';
+    [0, 3000, 6000, 9000, 12000].forEach(function (v) {
+      g += '<line x1="' + l + '" x2="' + (W - r) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)"/><text class="ax" x="' + (l - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + f0(v) + '</text>';
+    });
+    g += '<text class="ax" x="' + l + '" y="12">Millones de pesos</text>';
+    pr.forEach(function (p) { g += '<text class="ax" x="' + x(p) + '" y="' + (H - b + 18) + '" text-anchor="middle">' + fd(p, 1) + '</text>'; });
+    g += '<text class="ax" x="' + ((l + W - r) / 2) + '" y="' + (H - 8) + '" text-anchor="middle">Precio por kilo (millones de pesos)</text>';
+    g += '<line x1="' + x(S[1].precio_m_cop_kg) + '" x2="' + x(S[1].precio_m_cop_kg) + '" y1="' + t + '" y2="' + y(0) + '" stroke="var(--muted)" stroke-dasharray="2 4"/><text class="ax" x="' + (x(S[1].precio_m_cop_kg) + 5) + '" y="' + (t + 10) + '">central</text>';
+    var path = function (fn) { return pr.map(function (p, i) { return (i ? 'L' : 'M') + x(p).toFixed(1) + ' ' + y(fn(p)).toFixed(1); }).join(''); };
+    g += '<path d="' + path(function (p) { return p * KG; }) + '" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 5"/>';
+    var ops = [1, 0.7, 0.42];
+    ms.forEach(function (m, i) {
+      g += '<path d="' + path(function (p) { return p * KG * (1 - m); }) + '" fill="none" stroke="var(--tra)" stroke-width="2.5" opacity="' + ops[i] + '"/>';
+    });
+    var last = pr[pr.length - 1];
+    g += '<text x="' + (x(last) + 8) + '" y="' + (y(last * KG) + 4) + '" font-size="12" fill="var(--muted)" style="fill:var(--muted)">V</text>';
+    ms.forEach(function (m) { g += '<text x="' + (x(last) + 8) + '" y="' + (y(last * KG * (1 - m)) + 4) + '" font-size="12">m ' + pc(m, 0) + '</text>'; });
+    $('lineChart').innerHTML = g;
+    var rows = vs.map(function (v, i) {
+      var p = pr[i], V = p * KG;
+      return '<tr><td class="t">' + (v === 0 ? 'Central' : (v > 0 ? '+' : '') + pc(v, 0)) + '</td><td>' + f2(p) + '</td><td>' + f0(V) + '</td>' + ms.map(function (m) { return '<td>' + f0(V * (1 - m)) + '</td>'; }).join('') + '</tr>';
+    }).join('');
+    $('sensTbl').innerHTML = '<thead><tr><th class="t">Variación del precio</th><th>Precio (M/kg)</th><th>V</th><th>K con m 10%</th><th>K con m 25%</th><th>K con m 40%</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  /* calculator */
+  function renderCalc() {
+    var p = parseFloat($('price').value), m = parseFloat($('mrg').value) / 100;
+    $('priceOut').textContent = '$' + f2(p) + ' M/kg';
+    $('mrgOut').textContent = pc(m, 0);
+    var V = p * KG, K = V * (1 - m);
+    var sh = D.factores.map(function (f) { return f.monto_2022_m_cop / faTotal; });
+    var out = [
+      ['V: valor del inventario', M(V)], ['K: capital perdido', M(K)],
+      ['Margen propio (V menos K)', M(V - K)], ['Frente al valor de salida 2022', (V / (salida * KG) - 1 >= 0 ? '+' : '') + pc(V / (salida * KG) - 1)],
+      ['Insumos importados en V', M(V * sh[0])], ['Excedente de la cadena en V', M(V * sh[2])]
+    ];
+    $('outs').innerHTML = out.map(function (o) { return '<div><div class="lab">' + o[0] + '</div><div class="num">' + o[1] + '</div></div>'; }).join('');
+  }
+
+  /* summary + quality */
+  function renderSummary() {
+    var a = S.map(function (s) { return state.id === s.id; });
+    var sh = D.factores.map(function (f) { return f.monto_2022_m_cop / faTotal; });
+    var V = S.map(Vof);
+    var rows = [
+      ['Cantidad (kg)', S.map(function () { return f0(KG); }), 'OBSERVED'],
+      ['Precio por kg (M)', S.map(function (s) { return f3(s.precio_m_cop_kg); }), 'MODELLED / OFFICIAL_ESTIMATE / SCENARIO'],
+      ['V: valor del inventario', V.map(f1), 'MODELLED'],
+      ['Insumos importados', V.map(function (v) { return f1(v * sh[0]); }), 'MODELLED'],
+      ['Remuneración', V.map(function (v) { return f1(v * sh[1]); }), 'MODELLED'],
+      ['Excedente de la cadena', V.map(function (v) { return f1(v * sh[2]); }), 'MODELLED'],
+      ['K con m = 10%', V.map(function (v) { return f1(v * (1 - ms[0])); }), 'ASSUMPTION'],
+      ['K con m = 25%', V.map(function (v) { return f1(v * (1 - ms[1])); }), 'ASSUMPTION'],
+      ['K con m = 40%', V.map(function (v) { return f1(v * (1 - ms[2])); }), 'ASSUMPTION'],
+      ['D: medios logísticos incautados', ['sin dato', 'sin dato', 'sin dato'], 'UNRESOLVED'],
+      ['VEI = V + D', V.map(function (v) { return f1(v) + ' + D'; }), 'MODELLED'],
+      ['Impacto oficial reportado', ['-', f1(D.impacto_oficial_reportado_m_cop), '-'], 'OFFICIAL_ESTIMATE']
+    ];
+    var head = '<thead><tr><th class="t">Variable</th>' + S.map(function (s, i) { return '<th' + (a[i] ? ' class="act"' : '') + '>' + s.nombre + '</th>'; }).join('') + '<th class="t">Clasificación</th></tr></thead>';
+    var body = rows.map(function (r) {
+      var dash = (r[2] === 'ASSUMPTION' || r[2] === 'UNRESOLVED') ? ' dash' : '';
+      return '<tr><td class="t">' + r[0] + '</td>' + r[1].map(function (c, i) { return '<td' + (a[i] ? ' class="act"' : '') + '>' + c + '</td>'; }).join('') + '<td class="t"><span class="chip' + dash + '">' + r[2] + '</span></td></tr>';
+    }).join('');
+    $('sumTbl').innerHTML = head + '<tbody>' + body + '</tbody>';
+  }
+  function renderQuality() {
+    var q = [
+      ['Cantidad incautada', '1.198 kg', 'OBSERVED', 'Trino presidencial y prensa'],
+      ['COU 2022', 'Producción, VA, importaciones', 'OFFICIAL_ESTIMATE', 'Boletín técnico FFI'],
+      ['Precio de salida 2022', '$5,108 M/kg', 'MODELLED', 'Derivado del COU'],
+      ['Precio 2026', '$6,6 M/kg', 'OFFICIAL_ESTIMATE', 'Fuentes militares vía prensa; precio deducido'],
+      ['Proporciones de la descomposición', '15% / 12% / 73%', 'MODELLED', 'Identidad del COU, promedio nacional'],
+      ['Margen propio m', '10% a 40%', 'ASSUMPTION', 'Supuesto del analista'],
+      ['Precio regional del Meta', 'Sin dato', 'UNRESOLVED', 'El boletín solo publica promedios nacionales'],
+      ['Medios logísticos D', 'Sin dato', 'UNRESOLVED', 'Sin fuente pública'],
+      ['Precios de destino', 'Cuadro 13', 'OFFICIAL_ESTIMATE', 'World Drug Report 2023 vía Minjusticia']
+    ];
+    $('qualTbl').innerHTML = '<thead><tr><th class="t">Cifra</th><th class="t">Valor</th><th class="t">Clasificación</th><th class="t">Fuente o nota</th></tr></thead><tbody>' +
+      q.map(function (r) {
+        var dash = (r[2] === 'ASSUMPTION' || r[2] === 'UNRESOLVED') ? ' dash' : '';
+        return '<tr><td class="t">' + r[0] + '</td><td class="t">' + r[1] + '</td><td class="t"><span class="chip' + dash + '">' + r[2] + '</span></td><td class="t">' + r[3] + '</td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  /* json + sources */
+  function renderData() {
+    var txt = JSON.stringify(D, null, 2);
+    $('jsonView').textContent = txt;
+    $('copyBtn').addEventListener('click', function () {
+      var msg = $('copyMsg');
+      try {
+        navigator.clipboard.writeText(txt).then(function () { msg.textContent = ' Copiado.'; }, function () { msg.textContent = ' No se pudo copiar; seleccione el texto.'; });
+      } catch (e) { msg.textContent = ' No se pudo copiar; seleccione el texto.'; }
+    });
+    $('srcList').innerHTML = D.fuentes.map(function (s) { return '<li><a href="' + s.url + '" target="_blank" rel="noopener">' + s.titulo + '</a>, ' + s.institucion + '</li>'; }).join('');
+  }
+
+  renderHead(); renderVA(); renderPrices(); renderFFI(); renderLine(); renderQuality(); renderData();
+  renderScenario(); renderCalc();
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { renderFFI(); renderLine(); }, 150); });
+  $('price').addEventListener('input', renderCalc);
+  $('mrg').addEventListener('input', renderCalc);
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  if (typeof mermaid === 'undefined') return;
+  var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict' });
+})();
+</script>
+</body>
+</html>
