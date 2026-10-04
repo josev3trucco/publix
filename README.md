@@ -4,6 +4,9 @@ Tablero interactivo que estima el valor económico interrumpido por la incautaci
 
 **Ver el tablero:** https://josev3trucco.github.io/dashboard-puerto-gaitan/
 
+**Leer el white paper (PDF):** [Descargar](White_Paper_Impacto_Economico_Puerto_Gaitan.pdf)
+
+
 ## Qué muestra
 
 - El valor del inventario incautado: entre $6.120 y $7.907 millones de pesos.
